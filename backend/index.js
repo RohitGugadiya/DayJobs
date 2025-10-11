@@ -1,48 +1,33 @@
 import cors from "cors";
 import express from "express";
-import authRoutes from "./routes/auth.routes";
-import jobsRoutes from "./routes/jobs.routes";  
+import authRoutes from "./routes/auth.routes.js";
+import jobsRoutes from "./routes/jobs.routes.js";  
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
-app.use(cors());
 
-const PORT = 3000;
-// Middleware to parse JSON request bodies
+
+app.use(cors({
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    credentials: true,
+}));
+
+
 app.use(express.json());
-
-// Dummy data
-let users = [
+app.use(cookieParser());
+//  const availableJobs= [
+  //     { id: 1, title: "Furniture Move", location: "Adelaide CBD", date: "2025-10-10" },
+  //     { id: 2, title: "Office Relocation", location: "Glenelg", date: "2025-10-12" },
+  //     { id: 3, title: "Storage Move", location: "Mawson Lakes", date: "2025-10-18" },
+  //   ];
   
-  { id: 1, name: "Rohit", email: "rohitgugadiya@gmail.com", password: "12345",  acceptedJobs: []},
-  { id: 2, name: "John", email: "John@gmail.com", password: "67890", acceptedJobs: [] },
-  { id: 3, name: "Jane", email: "Jane@gmail.com", password: "78901", acceptedJobs: [] }
-];
-
- const availableJobs= [
-    { id: 1, title: "Furniture Move", location: "Adelaide CBD", date: "2025-10-10" },
-    { id: 2, title: "Office Relocation", location: "Glenelg", date: "2025-10-12" },
-    { id: 3, title: "Storage Move", location: "Mawson Lakes", date: "2025-10-18" },
-  ];
-// ======== READ all posts ========
-app.post("/api/auth", authRoutes);
-
-
-app.get("/api/jobs", jobsRoutes);
-
-
+  app.use("/api/auth", authRoutes);
+  app.use("/api/jobs", jobsRoutes);
   
+  const PORT = process.env.PORT || 5000;
 
-
-
-app.get("/api/users/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const user = users.find(u => u.id === id);
-  if (!user) {
-    res.status(404).json({ message: "User not found" });
-    return;
-  }
-  res.json(user);
-});
 
 // // ======== READ one post by ID ========
 // app.get("/api/posts/:id", (req, res) => {

@@ -1,27 +1,25 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Profile from "./pages/Profile";
-import AvailableJobs from "./pages/AvailableJobs";
-import CompletedJobs from "./pages/CompletedJobs";
-import Home from "./pages/home";
-import Login from "./pages/Login";
+import React from 'react'
+import LoginPage from './pages/LoginPage.jsx'
+import HomePage from './pages/HomePage.jsx'
+import Signup from './pages/Signup.jsx'
+import JobsPage from './pages/JobsPage.jsx'
+import NavBar from './components/NavBar'
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 function App() {
   return (
-    <Router>
-      <div>
-        {/* Navbar */}
-      
-
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/available-jobs" element={<AvailableJobs />} />
-          <Route path="/completed-jobs" element={<CompletedJobs />} />
-        </Routes>
-      </div>
-    </Router>
-  );
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/jobs" element={<JobsPage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
