@@ -1,41 +1,83 @@
-import { useEffect, useState } from 'react'
-import '../App.css'
+import { useEffect, useState } from "react";
+import axios from "axios";
+import "../CSS/JobsPage.css"; // make sure to create this CSS file
 
 function JobsPage() {
-  const [jobs, setJobs] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [actionMessage, setActionMessage] = useState("");
 
   useEffect(() => {
-    async function load() {
+    const loadJobs = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/jobs/available-jobs')
-        const data = await res.json()
-        setJobs(data)
-      } catch (e) {
-        console.error(e)
+        const res = await axios.get("http://localhost:5000/api/jobs/available-jobs");
+        setJobs(res.data);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    load()
-  }, [])
+    };
+    loadJobs();
+  }, []);
 
-  if (loading) return <div className="card">Loading jobs…</div>
+  const handleAction = async (jobId, action) => {
+    try {
+      // Example API endpoints:
+      // POST /api/jobs/:id/accept or /api/jobs/:id/reject
+      await axios.post(`http://localhost:5000/api/jobs/${jobId}/${action}`);
+
+      // Remove job from list after action
+      setJobs((prev) => prev.filter((job) => job.id !== jobId));
+
+      setActionMessage(`You ${action === "accept" ? "accepted" : "rejected"} the job.`);
+      setTimeout(() => setActionMessage(""), 3000);
+    } catch (error) {
+      console.error(`Error while trying to ${action} job:`, error);
+    }
+  };
+
+  if (loading) return <div className="loading">Loading jobs...</div>;
 
   return (
-    <div className="card">
-      <h2>Available Jobs</h2>
-      {jobs.length === 0 && <p>No jobs available right now.</p>}
-      <ul style={{ listStyle: 'none', padding: 0 }}>
-        {jobs.map((j) => (
-          <li key={j.id} className="job-item">
-            <strong>{j.title}</strong>
-            <div className="muted">{j.location} • {j.date}</div>
-          </li>
-        ))}
-      </ul>
+    <div className="jobs-page">
+      <h2 className="jobs-title">Available Jobs</h2>
+
+      {actionMessage && <div className="message">{actionMessage}</div>}
+
+      {jobs.length === 0 ? (
+        <p className="muted">No jobs available right now.</p>
+      ) : (
+        <ul className="jobs-list">
+          {jobs.map((job) => (
+            <li key={job.id} className="job-card">
+              <div className="job-info">
+                <h3>{job.title}</h3>
+                <p className="muted">
+                  {job.location} • Posted at{" "}
+                  {new Date(job.date || Date.now()).toLocaleTimeString()}
+                </p>
+              </div>
+              <div className="job-actions">
+                <button
+                  className="accept-btn"
+                  onClick={() => handleAction(job.id, "accept")}
+                >
+                  Accept
+                </button>
+                <button
+                  className="reject-btn"
+                  onClick={() => handleAction(job.id, "reject")}
+                >
+                  Reject
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
-  )
+  );
 }
 
-export default JobsPage
+export default JobsPage;

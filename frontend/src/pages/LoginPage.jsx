@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import "../CSS/LoginPage.css"; // External CSS for styling
+import { useAuthStore } from "../store/userAuthStore.js";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -8,52 +10,59 @@ function Login() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const { login } = useAuthStore();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
-      setMessage(res.data.message);
-      // Save token or user data if returned
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      navigate("/home"); // Redirect to jobs page after successful login
-    } catch (err) {
-      console.error(err);
-      setMessage(err.response?.data?.message || "Login failed");
-    }
+    login({ email, password })
+      .then(() => {
+        setMessage("Login successful! Redirecting...");
+        console.log("Login successful! Redirecting...");
+        navigate("/");
+      })
+  
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "50px auto" }}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
-        <button type="submit" style={{ padding: "10px 20px" }}>
-          Login
-        </button>
-      </form>
-      {message && <p style={{ marginTop: "10px" }}>{message}</p>}
+    <div className="auth-container">
+      <div className="auth-box">
+        <h2>Welcome Back</h2>
+        <p className="auth-subtitle">Login to continue</p>
+
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <div className="input-group">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <button type="submit" className="auth-btn">
+            Login
+          </button>
+        </form>
+
+        {message && <p className="auth-message">{message}</p>}
+
+        <p className="auth-footer">
+          Don’t have an account? <Link to="/SignUp">Sign Up</Link>
+        </p>
+      </div>
     </div>
   );
 }

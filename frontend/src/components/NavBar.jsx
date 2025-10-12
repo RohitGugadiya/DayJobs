@@ -1,20 +1,27 @@
-import { Link } from 'react-router-dom'
-import '../App.css'
+import React from "react";
+import { NavLink } from "react-router-dom";
+import "../CSS/NavBar.css";
 
-function NavBar() {
+function HomeNav() {
   return (
-    <header className="topbar">
-      <nav className="nav-inner">
-        <div className="brand">DayJobs</div>
-        <div className="nav-links">
-          <Link to="/home">Home</Link>
-          <Link to="/jobs">Jobs</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign up</Link>
-        </div>
-      </nav>
-    </header>
-  )
+    <nav className="custom-navbar">
+      <div className="navbar-brand">Kick on</div>
+      <div className="navbar-links">
+        <NavLink to="/home" className={({ isActive }) => (isActive ? "active" : "")}>
+          Home
+        </NavLink>
+        <NavLink to="/jobs" className={({ isActive }) => (isActive ? "active" : "")}>
+          Jobs
+        </NavLink>
+        <NavLink to="/upcoming" className={({ isActive }) => (isActive ? "active" : "")}>
+          Upcoming Jobs
+        </NavLink>
+        <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>
+          Profile
+        </NavLink>
+      </div>
+    </nav>
+  );
 }
 
-export default NavBar
+export default HomeNav;

@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import pool from "../config/db.js";
 import { authMiddleware } from "../Middleware/authMiddleware.js";
+import { checkAuth } from "../controllers/auth.controlls.js";
 
 
 const router = express.Router();
@@ -76,6 +77,9 @@ router.post("/login", async(req, res) => {
 });
 
 router.get("/home", authMiddleware, async(req, res) => {
-    res.json(req.user); } )
+    res.json(req.user); } );
+
+router.get("/check", authMiddleware, checkAuth);
+
 
 export default router;

@@ -4,6 +4,7 @@ import authRoutes from "./routes/auth.routes.js";
 import jobsRoutes from "./routes/jobs.routes.js";  
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import { authMiddleware } from "./Middleware/authMiddleware.js";
 dotenv.config();
 
 const app = express();
@@ -25,6 +26,7 @@ app.use(cookieParser());
   
   app.use("/api/auth", authRoutes);
   app.use("/api/jobs", jobsRoutes);
+
   
   const PORT = process.env.PORT || 5000;
 
