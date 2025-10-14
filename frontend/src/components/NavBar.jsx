@@ -1,22 +1,39 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "../CSS/NavBar.css";
+import "../CSS/NavBar.css"; // Ensure this path is correct
 
 function HomeNav() {
   return (
-    <nav className="custom-navbar">
-      <div className="navbar-brand">Kick on</div>
-      <div className="navbar-links">
-        <NavLink to="/home" className={({ isActive }) => (isActive ? "active" : "")}>
+    <nav className="app-navbar">
+      <div className="navbar-brand">
+        {/* Using a NavLink for the brand/logo is good practice */}
+        <NavLink to="/">
+            Kick on <span className="logo-dot">.</span>
+        </NavLink>
+      </div>
+      <div className="navbar-links-group">
+        <NavLink 
+            to="/" 
+            className={({ isActive }) => "navbar-link " + (isActive ? "active" : "")}
+        >
           Home
         </NavLink>
-        <NavLink to="/jobs" className={({ isActive }) => (isActive ? "active" : "")}>
-          Jobs
+        <NavLink 
+            to="/jobs" 
+            className={({ isActive }) => "navbar-link " + (isActive ? "active" : "")}
+        >
+          Available Shifts
         </NavLink>
-        <NavLink to="/upcoming" className={({ isActive }) => (isActive ? "active" : "")}>
-          Upcoming Jobs
+        <NavLink 
+            to="/my-jobs" 
+            className={({ isActive }) => "navbar-link " + (isActive ? "active" : "")}
+        >
+          Upcoming Shifts
         </NavLink>
-        <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>
+        <NavLink 
+            to="/profile" 
+            className={({ isActive }) => "navbar-link profile-link " + (isActive ? "active" : "")}
+        >
           Profile
         </NavLink>
       </div>

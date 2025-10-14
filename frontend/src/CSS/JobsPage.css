@@ -1,87 +1,169 @@
+
+:root {
+    --color-primary: #4A90E2; 
+    --color-secondary: #489797; 
+    --color-text: #333;
+    --color-muted: #888;
+    --color-bg-light: #F9FAFB;
+    --color-card-bg: #FFFFFF;
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
 .jobs-page {
-  max-width: 700px;
-  margin: 80px auto;
-  padding: 1rem;
-  font-family: system-ui, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: var(--color-bg-light);
+    min-height: 100vh;
 }
 
 .jobs-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 1.5rem;
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 30px;
+    border-bottom: 3px solid var(--color-primary);
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
-.loading {
-  text-align: center;
-  margin-top: 100px;
-  font-size: 1.2rem;
+.loading, .muted {
+    text-align: center;
+    font-size: 1.2em;
+    color: var(--color-muted);
+    padding: 50px 0;
 }
 
 .jobs-list {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
 }
 
+
+
 .job-card {
-  background: #fff;
-  padding: 1rem 1.5rem;
-  margin-bottom: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    background-color: var(--color-card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease-in-out;
+    border-left: 5px solid transparent; 
+}
+
+.job-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+    border-left: 5px solid var(--color-primary);
+}
+
+.job-card.expanded {
+    border-left: 5px solid var(--color-primary);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); 
+}
+
+
+
+.job-info {
+    padding: 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
 }
 
 .job-info h3 {
-  margin: 0 0 5px 0;
-  color: #111827;
+    margin: 0 0 5px 0;
+    font-size: 1.3em;
+    color: var(--color-text);
 }
 
 .job-info .muted {
-  color: #6b7280;
-  font-size: 0.9rem;
+    font-size: 0.9em;
+    margin: 0;
+    color: var(--color-muted);
 }
 
+
+.job-details {
+    padding: 15px 20px;
+    border-top: 1px solid #f0f0f0;
+    transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+    max-height: 600px; 
+    overflow: hidden;
+}
+
+.job-details p {
+    margin: 10px 0;
+    line-height: 1.5;
+    font-size: 1em;
+}
+
+.job-details strong {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+
+.job-details > div[style] {
+    margin-top: 15px !important;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+
+
 .job-actions {
-  display: flex;
-  gap: 0.5rem;
+    display: flex;
+    justify-content: flex-end; 
+    gap: 10px;
+    padding: 15px 20px;
+    margin-top: auto; 
+    border-top: 1px solid #eee;
+}
+
+.job-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s;
+    font-size: 0.95em;
+}
+
+.job-actions button:active {
+    transform: scale(0.98);
 }
 
 .accept-btn {
-  background-color: #4f46e5;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s;
+    background-color: var(--color-primary);
+    color: white;
 }
 
 .accept-btn:hover {
-  background-color: #4338ca;
+    background-color: #3b74b6; 
 }
 
 .reject-btn {
-  background-color: #f3f4f6;
-  color: #111;
-  border: 1px solid #d1d5db;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s;
+    background-color: var(--color-secondary);
+    color: white;
 }
 
 .reject-btn:hover {
-  background-color: #e5e7eb;
+    background-color: #e54d2e; 
 }
 
-.message {
-  background-color: #ecfdf5;
-  color: #065f46;
-  padding: 0.8rem;
-  border-radius: 8px;
-  text-align: center;
-  margin-bottom: 1rem;
+
+@media (max-width: 768px) {
+    .jobs-list {
+        grid-template-columns: 1fr; 
+        gap: 15px;
+    }
+    .jobs-page {
+        padding: 20px 10px;
+    }
 }

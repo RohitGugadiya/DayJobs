@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 
+
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const useAuthStore = create((set, get) => ({
@@ -10,6 +11,9 @@ export const useAuthStore = create((set, get) => ({
   isLoggingIn: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
+  isLoading: false,
+  jobs: [],
+  user: [],
   
 
   checkAuth: async () => {
@@ -20,6 +24,7 @@ export const useAuthStore = create((set, get) => ({
         if (res.data && res.data.id){
             console.log("Authenticated user:", res.data);
             set({ authUser: true });
+            set({ user: res.data });
         }
         else {
             console.log("No authenticated user");
@@ -78,5 +83,36 @@ export const useAuthStore = create((set, get) => ({
       set({ isLoggingIn: false });
     }
     },
+
+    loadJobs: async () => {
+      set({ isLoading: true });
+      try {
+      const res = await axiosInstance.get("/api/jobs/available-jobs");
+      console.log(res.data);
+      set({ jobs: res.data || []})
+      
+    }
+    catch (error) {
+      toast.error("Failed to load jobs");
+    }
+    finally {
+      
+      set({ isLoading : false})
+    }
+  },
+
+   handleJobAction: async (jobId, userId) => {
+      try { 
+        console.log(jobId, userId);
+        await axiosInstance.post("/api/jobs/accept-job", {jobId, id: userId});
+        toast.success(`Job  successfully`);
+         get().loadJobs();
+         
+      } catch (error) {
+        toast.error(`Failed to  job`);
+        get().loadJobs();
+      }
+    }
+
 
 }));

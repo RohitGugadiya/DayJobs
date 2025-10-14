@@ -1,91 +1,26 @@
-/* HomePage.css */
 
-.homepage {
-  min-height: 100vh;
+.layout {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(to bottom, #f9fafb, #ffffff);
-  font-family: system-ui, sans-serif;
+  min-height: 100vh; 
 }
 
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 50;
-  background-color: white;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+
+.layout-header {
+  flex-shrink: 0;
 }
 
-.main-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.layout-main {
   flex-grow: 1;
+  padding: 2rem 1rem; 
+}
+
+
+.layout-footer {
+  flex-shrink: 0;
   text-align: center;
-  padding: 6rem 1.5rem 3rem 1.5rem;
-  margin-top: 5rem; /* To offset fixed navbar height */
-}
-
-.main-content h1 {
-  font-size: 2.25rem; /* 36px */
-  font-weight: 800;
-  color: #111827;
-  margin-bottom: 1rem;
-}
-
-.main-content h1 span {
-  color: #4f46e5; /* Indigo-600 */
-}
-
-.main-content p {
-  font-size: 1.125rem; /* 18px */
-  color: #4b5563;
-  margin-bottom: 2rem;
-}
-
-.button-group {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.button-primary {
-  background-color: #4f46e5;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.button-primary:hover {
-  background-color: #4338ca;
-}
-
-.button-outline {
-  border: 2px solid #4f46e5;
-  color: #4f46e5;
-  background-color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.button-outline:hover {
-  background-color: #f0f0ff;
-}
-
-.footer {
-  padding: 1.5rem 0;
-  text-align: center;
-  font-size: 0.875rem; /* 14px */
+  padding: 1rem 0;
+  background-color: #fff;
+  border-top: 1px solid #eee;
   color: #6b7280;
-  border-top: 1px solid #f3f4f6;
 }

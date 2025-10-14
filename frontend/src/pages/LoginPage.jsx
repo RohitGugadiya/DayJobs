@@ -1,7 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import "../CSS/LoginPage.css"; // External CSS for styling
+import "../CSS/LoginPage.css"; 
 import { useAuthStore } from "../store/userAuthStore.js";
 
 function Login() {

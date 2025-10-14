@@ -1,46 +1,115 @@
-.custom-navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 3rem;
-  background-color: #1f2937; /* Dark gray */
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
+
+:root {
+    --color-primary: #FF5733; 
+    --color-secondary: #4A90E2; 
+    --color-dark: #2C3E50;
+    --color-text: #333;
+    --navbar-height: 70px;
 }
 
-.navbar-brand {
-  font-size: 1.5rem;
-  font-weight: bold;
-  letter-spacing: 1px;
+
+
+.app-navbar {
+    position: fixed;
+    top: 0;
+    left: -30px;
+    width: 100%;
+    height: var(--navbar-height);
+    z-index: 1000; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+
+    background-color: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(10px); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
 }
 
-.navbar-links {
-  display: flex;
-  gap: 1rem;
-  margin-right: 50px;
 
+.navbar-brand a {
+    text-decoration: none;
+    font-size: 1.8em;
+    font-weight: 800;
+    color: var(--color-dark);
+    transition: color 0.3s ease;
 }
 
-.navbar-links a {
-  color: #cbd5e1;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  transition: all 0.3s ease;
+.logo-dot {
+    color: var(--color-primary);
+    font-size: 1.2em; 
 }
 
-.navbar-links a:hover {
-  background-color: #4f46e5;
-  color: #fff;
+
+.navbar-links-group {
+    display: flex;
+    gap: 30px;
 }
 
-.navbar-links a.active {
-  background-color: #6366f1;
-  color: #fff;
-  font-weight: 600;
+.navbar-link {
+    text-decoration: none;
+    color: var(--color-dark);
+    font-weight: 600;
+    font-size: 1em;
+    position: relative;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+
+.navbar-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
+    transition: width 0.3s ease-in-out;
+}
+
+.navbar-link:hover {
+    color: var(--color-primary);
+}
+
+.navbar-link:hover::after,
+.navbar-link.active::after {
+    width: 100%;
+}
+
+
+
+.profile-link {
+
+    padding: 8px 15px;
+  
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.profile-link.active,
+.profile-link:hover {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+.profile-link:hover::after,
+.profile-link.active::after {
+    width: 0; 
+}
+
+
+@media (max-width: 768px) {
+    .app-navbar {
+        padding: 0 20px;
+    }
+    .navbar-links-group {
+        gap: 15px;
+    }
+    .navbar-link {
+        font-size: 0.9em;
+    }
+  
 }

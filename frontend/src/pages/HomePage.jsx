@@ -1,37 +1,23 @@
+
+import React from "react";
 import HomeNav from "../components/NavBar";
 import "../CSS/HomePage.css";
 
-function HomePage() {
+export default function Home({ children }) {
   return (
-    <div className="homepage">
-      {/* Fixed Top Navbar */}
-      <header className="header">
+    <div className="layout">
+      
+      <header className="layout-header">
         <HomeNav />
       </header>
 
-      {/* Main Content */}
-      <main className="main-content">
-        <div className="content-wrapper">
-          <h1>
-            Find Work. <span>Fast.</span>
-          </h1>
+      
+      <main className="layout-main">{children}</main>
 
-          <p>
-            DayJobs connects you with short-term opportunities — perfect for flexible, one-day gigs that fit your schedule.
-          </p>
-
-          <div className="button-group">
-            <button className="button-primary">Explore Jobs</button>
-            <button className="button-outline">Post a Gig</button>
-          </div>
-        </div>
-      </main>
-  
-      <footer className="footer">
+      
+      <footer className="layout-footer">
         © {new Date().getFullYear()} DayJobs — All rights reserved.
       </footer>
     </div>
   );
 }
-
-export default HomePage;
