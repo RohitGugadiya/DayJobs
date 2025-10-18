@@ -13,6 +13,7 @@ export const useAuthStore = create((set, get) => ({
   isCheckingAuth: true,
   isLoading: false,
   jobs: [],
+  myJobs: [],
   user: [],
   
 
@@ -44,7 +45,7 @@ fetchMyJobs: async (user) => {
       try {
         set({ isLoading: true });
         const res = await axiosInstance.get(`/api/jobs/my-jobs/${user.id}`);
-        set({ jobs: res.data || [] });
+        set({ myJobs: res.data || [] });
         console.log("Fetched my jobs:", res.data);
       } catch (err) {
         toast.error(err.response?.data?.message || "Failed to fetch your jobs");
@@ -120,6 +121,19 @@ fetchMyJobs: async (user) => {
          
       } catch (error) {
         toast.error(`Failed to  job`);
+        get().loadJobs();
+      }
+    },
+
+    rejectJobAction: async (jobId) => {
+      try { 
+        console.log(jobId);
+        await axiosInstance.post("/api/jobs/reject-job", {jobId});
+        toast.success(`Job rejected successfully`);
+         get().loadJobs();
+
+      } catch (error) {
+        toast.error(`Failed to reject job`);
         get().loadJobs();
       }
     },

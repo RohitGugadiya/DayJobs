@@ -6,7 +6,7 @@ import "../CSS/JobsPage.css";
 
 function JobsPage() {
   const [expandedJobId, setExpandedJobId] = useState(null);
-  const { loadJobs, jobs, isLoading, handleJobAction, user } = useAuthStore();
+  const { loadJobs, jobs, isLoading, handleJobAction, user, rejectJobAction} = useAuthStore();
 
   useEffect(() => {
     loadJobs();
@@ -19,6 +19,11 @@ function JobsPage() {
   const handleAction = (jobId, userId) => {
     handleJobAction(jobId, userId);
   };
+
+    const rejectAction = (jobId, userId) => {
+    rejectJobAction(jobId, userId);
+  };
+  
 
   return (
     <div className="jobs-page">
@@ -87,7 +92,7 @@ function JobsPage() {
                   className="reject-btn"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleAction(job.id);
+                    rejectAction(job.id);
                   }}
                 >
                   Reject

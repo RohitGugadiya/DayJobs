@@ -8,12 +8,13 @@ import "leaflet/dist/leaflet.css";
 
 function MyJobsPage() {
   const [expandedJobId, setExpandedJobId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { user, jobs } = useAuthStore();
-  const { fetchMyJobs, isLoading } = useAuthStore();
+  const { user, myJobs } = useAuthStore();
+  const { fetchMyJobs } = useAuthStore();
 
-  useEffect( () => {
-     fetchMyJobs(user);
+  useEffect(() => {
+    fetchMyJobs(user);
   }, [user]);
 
   const toggleExpand = (jobId) => {
@@ -28,11 +29,11 @@ function MyJobsPage() {
         <div className="loading">Loading your jobs...</div>
       ) : error ? (
         <p className="muted">{error}</p>
-      ) : jobs.length === 0 ? (
+      ) : myJobs.length === 0 ? (
         <p className="muted">You don’t have any upcoming work yet.</p>
       ) : (
         <ul className="jobs-list">
-          {jobs.map((job) => (
+          {myJobs.map((job) => (
             <li
               key={job.jobid}
               className={`job-card ${expandedJobId === job.jobid ? "expanded" : ""}`}
