@@ -4,31 +4,16 @@ import "../CSS/JobsPage.css";
 import { useAuthStore } from "../store/userAuthStore.js";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+ 
 
 function MyJobsPage() {
   const [expandedJobId, setExpandedJobId] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [myJobs, setMyJobs] = useState([]);
-  const { user } = useAuthStore();
+  const { user, jobs } = useAuthStore();
+  const { fetchMyJobs, isLoading } = useAuthStore();
 
-  useEffect(() => {
-    const fetchMyJobs = async () => {
-      if (!user?.id) return;
-      try {
-        setIsLoading(true);
-        const res = await axios.get(
-          `http://localhost:5000/api/jobs/my-jobs/${user.id}`
-        );
-        setMyJobs(res.data);
-      } catch (err) {
-        setError(err.response?.data?.message || "Failed to fetch your jobs");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchMyJobs();
+  useEffect( () => {
+     fetchMyJobs(user);
   }, [user]);
 
   const toggleExpand = (jobId) => {
@@ -43,11 +28,11 @@ function MyJobsPage() {
         <div className="loading">Loading your jobs...</div>
       ) : error ? (
         <p className="muted">{error}</p>
-      ) : myJobs.length === 0 ? (
+      ) : jobs.length === 0 ? (
         <p className="muted">You don’t have any upcoming work yet.</p>
       ) : (
         <ul className="jobs-list">
-          {myJobs.map((job) => (
+          {jobs.map((job) => (
             <li
               key={job.jobid}
               className={`job-card ${expandedJobId === job.jobid ? "expanded" : ""}`}

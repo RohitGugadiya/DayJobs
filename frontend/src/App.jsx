@@ -9,6 +9,7 @@ import { useAuthStore } from "./store/userAuthStore.js";
 import { useEffect } from "react";
 import UpcomingJobs from "./pages/MyJobsPage";
 import ProfilePage from "./pages/ProfilePage";
+import Signup from "./pages/Signup";
  
 
 
@@ -45,23 +46,32 @@ function App() {
           element={ authUser ?
             <HomePage>
               <JobsPage />
-            </HomePage> : <LoginPage />
+            </HomePage> : <Navigate to="/login" />
           }
         />
         <Route
           path="/profile"
-          element={
+          element={authUser?
             <HomePage>
               <ProfilePage />
-            </HomePage>
+            </HomePage> : <Navigate to="/login" />
           }
         />
         <Route
           path="/my-jobs"
-          element={
+          element={authUser?
             <HomePage>
               <UpcomingJobs />
-            </HomePage>
+            </HomePage> : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/signUp"
+          element={! authUser ?
+            <Signup /> :
+            
+            <Navigate to="/" />
+            
           }
         />
       </Routes>

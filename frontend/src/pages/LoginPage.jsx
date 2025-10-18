@@ -14,19 +14,22 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     login({ email, password })
-      .then(() => {
-        setMessage("Login successful! Redirecting...");
-        console.log("Login successful! Redirecting...");
-        navigate("/");
-      })
-  
+    try {
+      setMessage("Login successful! Redirecting..."); 
+      console.log("Login successful! Redirecting...");
+      navigate("/jobs");
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Login failed. Try again.");
+      console.log(error.response?.data?.message || "Login failed. Try again.");
+    }
+
   };
 
   return (
     <div className="auth-container">
       <div className="auth-box">
         <h2>Welcome Back</h2>
-        <p className="auth-subtitle">Login to continue</p>
+        <p className="auth-subtitle">Logn to continue</p>
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">

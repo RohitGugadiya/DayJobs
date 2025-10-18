@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: dayjobs-postgres
+    environment:
+      POSTGRES_USER: rohit
+      POSTGRES_PASSWORD: Rohit@5673
+      POSTGRES_DB: dayjobs
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    image: node:22
+    container_name: dayjobs-backend
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env
+    ports:
+      - "5001:5001"
+    depends_on:
+      - postgres
+    command: bash -c "npm install && npm run dev"
+    networks:
+      - dayjobs-net
+
+  frontend:
+    image: node:22
+    container_name: dayjobs-frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    env_file:
+      - .env
+    ports:
+      - "5173:5173"
+    command: bash -c "npm install && npm run dev"
+    networks:
+      - dayjobs-net
+
+volumes:
+  pgdata:
+
+networks:
+  dayjobs-net:
+    driver: bridge

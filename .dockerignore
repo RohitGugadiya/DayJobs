@@ -1,0 +1,23 @@
+# Ignore local dependencies
+node_modules
+
+# Ignore build/dist files (if any)
+frontend/dist
+backend/dist
+build
+
+# Ignore environment files
+.env
+.env.local
+.env.*.local
+
+# Git metadata
+.git
+.gitignore
+
+# Docker files (optional, prevents recursion)
+docker-compose.yml
+
+# OS files
+.DS_Store
+Thumbs.db

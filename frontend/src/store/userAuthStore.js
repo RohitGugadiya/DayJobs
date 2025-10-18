@@ -38,6 +38,22 @@ export const useAuthStore = create((set, get) => ({
     set({ isCheckingAuth: false });
   } 
 },
+
+fetchMyJobs: async (user) => {
+      if (!user?.id) return;
+      try {
+        set({ isLoading: true });
+        const res = await axiosInstance.get(`/api/jobs/my-jobs/${user.id}`);
+        set({ jobs: res.data || [] });
+        console.log("Fetched my jobs:", res.data);
+      } catch (err) {
+        toast.error(err.response?.data?.message || "Failed to fetch your jobs");
+      } finally {
+        set({ isLoading: false });
+      }
+    },
+
+
     signup: async (data) => {
         set({ isSigningUp: true });
         try {
@@ -57,32 +73,26 @@ export const useAuthStore = create((set, get) => ({
         }
     },
 
-    logout: async()  =>{
-        try {
-            await axiosInstance.post("/api/auth/logout");
-            set({ authUser: null});
-            toast.success("Logged out successfully");
-
-        }
-        catch (error) {
-             toast.error(error.response?.data?.message || "Logout failed");
-        }   
-    },
 
     login: async (data) => {
-    set({ isLoggingIn: true });
-    try {
-      const res = await axiosInstance.post("/api/auth/login", data);
-      if (res.data && res.data.id) {
-        set({ authUser: res.data });
-        toast.success("Logged in successfully");
+      set({ isLoggingIn: true });
+      try {
+        const res = await axiosInstance.post("/api/auth/login", data);
+        
+        if (res.data && res.data.user) {
+          set({ authUser: res.data.user, user: res.data.user });
+          toast.success("Logged in successfully");
+        } else {
+          toast.error("Invalid login response from server");
+        }
+
+      } catch (error) {
+        toast.error(error.response?.data?.message || "Login failed");
+      } finally {
+        set({ isLoggingIn: false });
       }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed");
-    } finally {
-      set({ isLoggingIn: false });
-    }
     },
+
 
     loadJobs: async () => {
       set({ isLoading: true });
@@ -112,7 +122,18 @@ export const useAuthStore = create((set, get) => ({
         toast.error(`Failed to  job`);
         get().loadJobs();
       }
-    }
+    },
+
+logout: async () => {
+  try {
+    await axiosInstance.post("/api/auth/logout");
+    set({ authUser: null, user: null });
+    toast.success("Logged out successfully");
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Logout failed");
+  }
+},
+
 
 
 }));
